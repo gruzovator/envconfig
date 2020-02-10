@@ -1,14 +1,16 @@
 # envconfig
 
-[![Build Status](https://travis-ci.org/kelseyhightower/envconfig.svg)](https://travis-ci.org/kelseyhightower/envconfig)
+Forked from kelseyhightower/envconfig to make 'split_words' = true by default. 
+
+[![Build Status](https://travis-ci.org/gruzovator/envconfig.svg)](https://travis-ci.org/gruzovator/envconfig)
 
 ```Go
-import "github.com/kelseyhightower/envconfig"
+import "github.com/gruzovator/envconfig"
 ```
 
 ## Documentation
 
-See [godoc](http://godoc.org/github.com/kelseyhightower/envconfig)
+See [godoc](http://godoc.org/github.com/gruzovator/envconfig)
 
 ## Usage
 

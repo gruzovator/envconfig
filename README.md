@@ -23,7 +23,7 @@ export MYAPP_USER=Kelsey
 export MYAPP_RATE="0.5"
 export MYAPP_TIMEOUT="3m"
 export MYAPP_USERS="rob,ken,robert"
-export MYAPP_COLORCODES="red:1,green:2,blue:3"
+export MYAPP_COLOR_CODES="red:1,green:2,blue:3"
 ```
 
 Write some code:
@@ -36,7 +36,7 @@ import (
     "log"
     "time"
 
-    "github.com/kelseyhightower/envconfig"
+    "github.com/gruzovator/envconfig"
 )
 
 type Specification struct {
@@ -104,22 +104,23 @@ type Specification struct {
     DefaultVar      string `default:"foobar"`
     RequiredVar     string `required:"true"`
     IgnoredVar      string `ignored:"true"`
-    AutoSplitVar    string `split_words:"true"`
-    RequiredAndAutoSplitVar    string `required:"true" split_words:"true"`
+    NoAutoSplitVar    string `split_words:"false"`
+    RequiredAndNoAutoSplitVar    string `required:"true" split_words:"false"`
 }
 ```
 
-Envconfig has automatic support for CamelCased struct elements when the
-`split_words:"true"` tag is supplied. Without this tag, `AutoSplitVar` above
-would look for an environment variable called `MYAPP_AUTOSPLITVAR`. With the
-setting applied it will look for `MYAPP_AUTO_SPLIT_VAR`. Note that numbers
+Envconfig has automatic support for CamelCased struct elements by default. 
+This feature is disabled when the `split_words:"false"` tag is supplied. 
+Without this tag, `NoAutoSplitVar` above
+looks for an environment variable called `MYAPP_NO_AUTO_SPLIT_VAR`. With the
+setting applied it will look for `MYAPP_AUTOSPLITVAR`. Note that numbers
 will get globbed into the previous word. If the setting does not do the
 right thing, you may use a manual override.
 
 Envconfig will process value for `ManualOverride1` by populating it with the
 value for `MYAPP_MANUAL_OVERRIDE_1`. Without this struct tag, it would have
-instead looked up `MYAPP_MANUALOVERRIDE1`. With the `split_words:"true"` tag
-it would have looked up `MYAPP_MANUAL_OVERRIDE1`.
+instead looked up `MYAPP_MANUAL_OVERRIDE1`. With the `split_words:"false"` tag
+it would have looked up `MYAPP_MANUALOVERRIDE1`.
 
 ```Bash
 export MYAPP_MANUAL_OVERRIDE_1="this will be the value"
@@ -127,12 +128,12 @@ export MYAPP_MANUAL_OVERRIDE_1="this will be the value"
 # export MYAPP_MANUALOVERRIDE1="and this will not"
 ```
 
-If envconfig can't find an environment variable value for `MYAPP_DEFAULTVAR`,
+If envconfig can't find an environment variable value for `MYAPP_DEFAULT_VAR`,
 it will populate it with "foobar" as a default value.
 
-If envconfig can't find an environment variable value for `MYAPP_REQUIREDVAR`,
+If envconfig can't find an environment variable value for `MYAPP_REQUIRED_VAR`,
 it will return an error when asked to process the struct.  If
-`MYAPP_REQUIREDVAR` is present but empty, envconfig will not return an error.
+`MYAPP_REQUIRED_VAR` is present but empty, envconfig will not return an error.
 
 If envconfig can't find an environment variable in the form `PREFIX_MYVAR`, and there
 is a struct tag defined, it will try to populate your variable with an environment
